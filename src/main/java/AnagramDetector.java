@@ -1,4 +1,3 @@
-// Import the Scanner class from the java.util package
 import java.util.Scanner;
 
 // Define a class named 'AnagramDetector' that extends 'AnagramBase'
@@ -18,14 +17,14 @@ class AnagramDetector extends AnagramBase {
         while (true) {
             // Prompt the user to enter a username
             System.out.println("--------------------------------------");
-            System.out.println("Welcome to Lees Anagram Detector!");
+            System.out.println("Welcome to Lee's Anagram Detector!");
             System.out.println("--------------------------------------");
             System.out.print("Please enter your username: ");
             String username = scanner.nextLine();
 
             // Check if the entered username is valid using 'isValidUsername' method
             if (!anagramDetector.isValidUsername(username)) {
-                System.out.println("Invalid username. Username cannot contain spaces, numbers, or special characters.");
+                anagramDetector.logInfo("Invalid username. Username cannot contain spaces, numbers, or special characters.");
                 continue;
             }
 
@@ -39,13 +38,13 @@ class AnagramDetector extends AnagramBase {
 
             // Check if the entered text values are valid using 'isValidText' method
             if (!anagramDetector.isValidText(text1) || !anagramDetector.isValidText(text2)) {
-                System.out.println("Invalid text value. Text values cannot contain spaces, numbers, or special characters.");
+                anagramDetector.logInfo("Invalid text value. Text values cannot contain spaces, numbers, or special characters.");
                 continue;
             }
 
             // Check if the entered text values are duplicates using 'isDuplicate' method
             if (anagramDetector.isDuplicate(text1, text2)) {
-                System.out.println("Error: " + text1 + " and " + text2 + " are already in cache or results.txt.");
+                anagramDetector.logInfo("Error: " + text1 + " and " + text2 + " are already in cache or results.txt.");
                 continue;
             }
 
@@ -84,7 +83,7 @@ class AnagramDetector extends AnagramBase {
         }
     }
 
-    // Define a private method to check if two text values are duplicates
+    // Define a public method to check if two text values are duplicates
     public boolean isDuplicate(String text1, String text2) {
         return isAlreadyInResults(text1, text2) || isAlreadyInCache(text1, text2);
     }
@@ -98,5 +97,10 @@ class AnagramDetector extends AnagramBase {
             }
         }
         return false;
+    }
+
+    // Example method for logging
+    private void logInfo(String message) {
+        logger.info(message);
     }
 }

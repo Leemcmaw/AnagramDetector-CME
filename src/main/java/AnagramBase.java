@@ -1,19 +1,40 @@
-// Import necessary Java libraries for input/output and date formatting
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
-
+import java.util.logging.*;
 
 // Define an abstract class named AnagramBase
 abstract class AnagramBase {
-
-
-
-    // Create a set to cache results and initialise it as a HashSet
+    // Create a set to cache results and initialize it as a HashSet
     protected Set<String> cache = new HashSet<>();
 
     // Define a file path for storing results
     protected String resultsFilePath = "results.txt";
+
+    // Define a logger for AnagramBase
+    protected Logger logger = Logger.getLogger(AnagramBase.class.getName());
+
+    // Constructor for AnagramBase
+    protected AnagramBase() {
+        // Initialize the logger
+        logger.setLevel(Level.INFO);
+
+        // Create a console handler and set its level
+        ConsoleHandler consoleHandler = new ConsoleHandler();
+        consoleHandler.setLevel(Level.INFO);
+
+        // Create a file handler to log to a file (results.log)
+        try {
+            FileHandler fileHandler = new FileHandler("results.log");
+            fileHandler.setLevel(Level.INFO);
+            logger.addHandler(fileHandler);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // Add the console handler to the logger
+        logger.addHandler(consoleHandler);
+    }
 
     // Define a method to check if a username is valid
     public boolean isValidUsername(String username) {
@@ -55,7 +76,7 @@ abstract class AnagramBase {
                 cache.add(line);
             }
         } catch (IOException e) {
-            e.printStackTrace(); // Handle and print any IO exceptions
+            logger.log(Level.SEVERE, "Error loading results from file: " + e.getMessage(), e);
         }
     }
 
@@ -85,12 +106,12 @@ abstract class AnagramBase {
 
             for (String entry : cache) {
                 // Append a timestamp to each entry and write it to the file
-                String entryWithTimestamp =  "Timestamp:" +" |" +  formattedTimestamp + ", " + entry;
+                String entryWithTimestamp =  "Timestamp:" + " |" +  formattedTimestamp + ", " + entry;
                 writer.write(entryWithTimestamp);
                 writer.newLine();
             }
         } catch (IOException e) {
-            e.printStackTrace(); // Handle and print any IO exceptions
+            logger.log(Level.SEVERE, "Error storing results to file: " + e.getMessage(), e);
         }
     }
 }
