@@ -1,0 +1,1 @@
+Timestamp: |2023-09-29 13:43:50, Username: lee | Input1: lee | Input2: lee | Result: Anagram! |
